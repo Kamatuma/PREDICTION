@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,700,900&display=swap" rel="stylesheet">
+
+    <!-- N.B: Les fichiers css doivent etre appelés comme suit: -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/icomoon/style.css') }}">   
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>PREDICTION DE PERFORMANCES DES ETUDIANTS</title>
+  </head>
+  <body style="background-color: rgb(10, 7, 8);">
+  <div class="content">
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mr-auto">
+          <h3 class="mb-3">PREDICTION DE PERFORMANCE DES ETUDIANTS</h3>
+          <p style="text-align:justify;"> L’objectif général assigné pour notre système est d’analyser et de  prédire la performance des étudiants dans le but d'orienter les étudiants au choix du département, prenant en considération l’UAC/ISDA. En effet, cet outil intégrant les techniques de Data Mining et visualisant la prédiction probabiliste, permettant ainsi une aide à la décision d’orienter les étudiants. En plus, Ce système appliqué sur des données réelles, de manière à tester s’il détecte des tendances en pourcentage et s’il parvient effectivement à prédire la sortie de manière probabiliste des pourcentages de G1, G2 et G3 pour un nouveau inscrit.</p>
+          <p style="text-align:justify;">Nous avons dévéloppé ce projet en utilisant Random Forest Regressor pour prédire le pourcentage en G1 et le Extra Trees Regressor comme algorithme de prediction de pourcentages en G2 et G3 et l'avons déployé en utilisant le Framework Flask</p>
+          <p style="text-align:justify;">N.B: Ce système vous aide à prendre une décision tolérable</p>
+		  <p style="text-align:justify;">Si vous l'avez aimé, veuillez nous contacter via cette adresse <a href="#">kamatumawelcome@gmail.com</a> ou <a> + 243 978 354 420</a></p>
+          
+        </div>
+
+        <div class="col-md-8">
+          <div class="box">
+            <h3 class="heading">Saisissez les données pour prédire vos pourcentages de G1, G2 et G3</h3>
+			<div style='text-align:center;font-size:20px;color:#f00';line-height: 0.7>
+			    <!-- Nous affichons ici les resultats de prediction -->
+				{{ prediction_text }} 
+				</div>
+				<!-- Nous precisons predict qui vient du code Flask comme action de notre formulaire html -->
+            <form class="mb-8" action="{{url_for('predict')}}" method="post" id="contactForm" name="contactForm">
+
+							<div class="col-md-9 form-group">
+                 <label for="name" class="col-form-label">Genre *</label>
+                 <select class="custom-select" id="budget" name="Genre" required>
+									<option > Choissir ... </option>
+									<option value="1">Masculin</option>
+									<option value="0">Féminin</option>
+								</select>
+              </div>
+              <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Age du Nouveau Inscrit *</label>
+                  <input type="number" class="form-control" name="Age" id="organization" placeholder="Exemple: 19" required>
+              </div>
+
+              <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Nombre d'année de Repos *</label>
+                  <input type="number" class="form-control" name="Repos" id="organization" placeholder="Exemple: 0" required>
+              </div>
+
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Votre Status *</label>
+                  <select class="custom-select" id="budget" name="EtatCivil" required>
+									<option selected>Choisir...</option>
+									<option value="0">Célibataire</option>
+									<option value="1">Marié (e)</option>
+									<option value="2">Divorcé(e)</option>
+									<option value="3">Autres</option>
+									<option value="4">Autres</option>
+									</select>
+                </div> 
+                </div>  
+
+                <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etes-vous orphelin? *</label>
+                  <select class="custom-select" id="budget" name="Orphelin" required>
+									<option selected>Choisir...</option>
+									<option value="0">Non</option>
+									<option value="1">Oui</option> 
+									</select>
+                </div>
+              </div> 
+
+								<div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Profession à exércer étant qu'étudiant *</label>
+                  <select class="custom-select" id="budget" name="Profession" required>
+									<option selected>Choisir...</option>
+									<option value="0">Aucune</option>
+									<option value="1">Ménagère</option>
+									<option value="2">Journaliste</option>
+									<option value="3">Entrepreneur</option>
+									<option value="4">Stagiaire d'une entreprise</option>
+									<option value="5">Religieux</option>
+									<option value="6">Humataire</option>
+									<option value="7">Hôtellerie</option>
+									<option value="8">Chef d'une structure</option>
+									<option value="9">Étudiant</option>
+									<option value="3">Étudiant</option>
+									</select>
+                </div> 
+                </div> 
+
+							<div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Votre Confession *</label>
+                  <select class="custom-select" id="budget" name="Confession" required>
+									<option selected>Choisir...</option>
+									<option value="0">Catholique</option>
+									<option value="1">Protestante</option>
+									<option value="2">Adventiste</option>
+									<option value="3">Autres</option>
+									</select>
+                </div>
+              </div>  
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Votre Province d'origine *</label>
+                  <select class="custom-select" id="budget" name="Origine" required>
+									<option selected>Choisir...</option>
+									<option value="0">Nord-Kivu</option>
+									<option value="1">Ituri</option>
+									<option value="2">Mongala</option>
+									<option value="3">Bas-Uele</option>
+									<option value="4">Autres</option>
+									</select>
+                </div>
+              </div>  
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Vous resterez avec qui? *</label>
+                  <select class="custom-select" id="budget" name="Deumeure" required>
+									<option selected>Choisir...</option>
+									<option value="6">Deux parents</option>
+									<option value="0">Maman</option>
+									<option value="1">Papa</option>
+									<option value="2">Seul(e)</option>
+									<option value="3">Conjoint(e)</option>
+									<option value="4">Ami (s)</option>
+									<option value="5">Confrères</option>
+									</select>
+                </div> 
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Type de votre école d'origine *</label>
+                  <select class="custom-select" id="budget" name="TypeEcole" required>
+									<option selected>Choisir...</option>
+									<option value="0">Catholique</option>
+									<option value="1">Étatique</option>
+									<option value="2">Protestante</option>
+									<option value="3">Privée</option>
+									<option value="4">Kimbangwiste</option>
+									<option value="5">Autres</option>
+									</select>
+                </div>
+              </div>  
+
+               <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Votre option du secondaire *</label>
+                  <select class="custom-select" id="budget" name="Option" required>
+									<option selected>Choisir...</option>
+									<option value="0">Secrétariat</option>
+									<option value="1">Nutrition</option>
+									<option value="2">Latin Philo</option>
+									<option value="3">Commerciale</option> 
+									<option value="4">Electricité</option>
+									<option value="5">Informatique</option>
+									<option value="6">Pédagogie</option>
+									<option value="7">Biochimie</option>
+									<option value="8">Math-Physique</option>
+									<option value="9">Industrie</option>
+									<option value="10">Sociale</option>
+									<option value="11">Imprimerie</option>
+									<option value="12">Agronomie</option>
+									<option value="5">Autres</option>
+									</select>
+                </div>
+              </div> 
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous compétent en Mathematiques ? *</label>
+                  <select class="custom-select" id="budget" name="CompMath" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+               <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous compétent en Langues ? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Langues" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous compétent en Physique ? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Physique" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous competent en Chimie ? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Chimie" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous competent aux Sciences Biologiques? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Biologie" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous competent en Informatique ? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Informatique" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div>
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Etiez-vous competent en Dissertation ? *</label>
+                  <select class="custom-select" id="budget" name="Compétent_Dissertation" required>
+									<option selected>Choisir...</option>
+									<option value="0">Oui</option>
+									<option value="1">Moyen</option>
+									<option value="2">Non</option> 
+									</select>
+                </div>
+              </div> 
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Que voulez vous devenir ? *</label>
+                  <select class="custom-select" id="budget" name="Vouloir_devenir" required>
+									<option selected>Choisir...</option>
+									<option value="0">Gestionnaire</option>
+									<option value="1">Ingénieur</option>
+									<option value="2">Journaliste</option>  
+									<option value="3">Comptable</option>
+									<option value="4">Entrepreneur</option>
+									<option value="5">Commerçant</option>
+									<option value="6">Gestionnaire</option>
+									<option value="7">Chef du projet</option>  
+									<option value="8">Religieux</option>
+									<option value="9">Autre</option> 
+									</select>
+                </div>
+              </div> 
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Quelle sera votre distance à parcourir ? *</label>
+                  <select class="custom-select" id="budget" name="Distance" required>
+									<option selected>Choisir...</option>
+									<option value="3">Entre 0 et 1 km</option>
+									<option value="0">Entre 1 et 2 km</option>
+									<option value="6">Entre 2 et 3 km</option>
+									<option value="1">Entre 3 et 4 km</option>
+									<option value="5">Entre 4 et 5 km</option>
+									<option value="4">Entre 5 et 6 km</option>
+									<option value="2">Plus de 6 km</option>
+									</select>
+                </div>
+              </div> <!-- ['Autre_Institution'].map({'NON':1, 'OUI':0}) -->
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Aviez-vous déjà fréquenté une autre Institution? *</label>
+                  <select class="custom-select" id="budget" name="Autre_Institution" required>
+									<option selected>Choisir...</option>
+									<option value="0">OUI</option>
+									<option value="1">NON</option> 
+									</select>
+                </div>
+              </div>  
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Qui vous a orienté pour ce département? *</label>
+                  <select class="custom-select" id="budget" name="Qui_Orienté_au_département" required>
+									<option selected>Choisir...</option>
+									<option value="0">Seul(e)</option>
+									<option value="1">Amis</option>
+									<option value="2">Papa</option>
+									<option value="3">Deux parents</option>
+									<option value="4">Confrères(Consoeurs)</option>
+									<option value="5">Autorité académique</option>
+									<option value="6">Maman</option>
+									<option value="7">Autre</option>
+									</select>
+                </div>
+              </div> 
+
+              <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Votre pourcentage aux Examens d'Etat ? *</label>
+                  <input type="number" class="form-control" name="EXETAT" id="organization" placeholder="Exemple: 55" required>
+              </div>
+
+               <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Concours d'Admission</label>
+                  <select name="ConcoursAdmission"> 
+                    <option selected value="60">Pas de Concours</option> 
+    <option value="46">46</option>
+    <option value="47">47</option>
+    <option value="48">48</option>
+    <option value="49">49</option>
+    <option value="50">50</option>
+    <option value="51">51</option>
+    <option value="52">52</option>
+    <option value="53">53</option>
+    <option value="54">54</option>
+    <option value="55">55</option>
+    <option value="56">56</option>
+    <option value="57">57</option>
+    <option value="58">58</option>
+    <option value="59">59</option>
+    <option value="60">60</option>
+    <option value="61">61</option>
+    <option value="62">62</option>
+    <option value="63">63</option>
+    <option value="64">64</option>
+    <option value="65">65</option>
+    <option value="66">66</option>
+    <option value="67">67</option>
+    <option value="68">68</option>
+    <option value="69">69</option>
+    <option value="70">70</option>
+    <option value="71">71</option>
+    <option value="72">72</option>
+    <option value="73">73</option>
+    <option value="74">74</option>
+    <option value="75">75</option>
+    <option value="76">76</option>
+    <option value="77">77</option>
+    <option value="78">78</option>
+    <option value="79">79</option>
+    <option value="80">80</option>
+    <option value="81">81</option>
+    <option value="82">82</option>
+    <option value="83">83</option>
+    <option value="84">84</option>
+    <option value="85">85</option>
+    <option value="86">86</option>
+    <option value="87">87</option>
+    <option value="88">88</option>
+    <option value="89">89</option>
+    <option value="90">90</option>
+    <option value="91">91</option> 
+     <option value="28">28</option>
+    <option value="29">29</option>
+    <option value="30">30</option>
+    <option value="31">31</option>
+    <option value="32">32</option>
+    <option value="33">33</option>
+    <option value="34">34</option>
+    <option value="35">35</option>
+    <option value="36">36</option>
+    <option value="37">37</option>
+    <option value="38">38</option>
+    <option value="39">39</option>
+    <option value="40">40</option>
+    <option value="41">41</option>
+    <option value="42">42</option>
+    <option value="43">43</option>
+    <option value="44">44</option>
+    <option value="45">45</option>
+</select>
+</div>
+              </div> 
+
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">AVEZ-VOUS L'HABITUDE DE REVOIR LES NOTES *</label>
+                  <select class="custom-select" id="budget" name="RévisezNotes" required>
+									<option selected>Choisir...</option>
+									<option value="0">Souvent</option>
+									<option value="1">Rarement</option>
+									<option value="2">Tres Souvent</option>
+									<option value="3">Jamais</option>
+									</select>
+                </div>
+              </div> 
+
+               <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Voulez vous suivre quel Departement ? *</label>
+                  <select class="custom-select" id="budget" name="Département" required>
+									<option selected>Choisir...</option>
+									<option value="0">Informatique de Gestion</option>
+									<option value="1">Développement</option>
+									<option value="2">SIC</option>
+									<option value="3">Philosophie</option>
+									</select>
+                </div>
+              </div>
+              <div class="row"> 
+                <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Qui vous a orienté pour ce département? *</label>
+                  <select class="custom-select" id="budget" name="Qui_Orienté_au_département" required>
+									<option selected>Choisir...</option>
+									<option value="0">Seul(e)</option>
+									<option value="1">Amis</option>
+									<option value="2">Papa</option>
+									<option value="3">Deux parents</option>
+									<option value="4">Confrères(Consoeurs)</option>
+									<option value="5">Autorité académique</option>
+									<option value="6">Maman</option>
+									<option value="7">Autre</option>
+									</select>
+                </div>
+              </div>
+               
+              
+               <div class="col-md-9 form-group">
+                  <label for="name" class="col-form-label">Quel sera le nombre de vos absence la semaine? *</label>
+                  <input type="number" class="form-control" name="Nbreabsences" id="organization" placeholder="Exemple: 0" required>
+              </div>
+               
+                 
+               
+              <div class="row">
+                <div class="col-md-12">
+                  
+				  <button class="btn btn-block btn-primary rounded-0 py-2 px-4" id='submit' type="submit" value="Submit">Prédire</button>
+                  <span class="submitting"></span>
+                </div>
+              </div>
+            </form>
+
+            <div id="form-message-warning mt-4"></div> 
+
+          </div>
+        </div>
+      </div>
+  </div>
+    
+    
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/main.js"></script>
+
+  </body>
+</html>
